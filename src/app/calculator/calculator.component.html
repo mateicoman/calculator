@@ -1,0 +1,17 @@
+<div>
+    <input type="number" [(ngModel)]="firstNumber" placeholder="Enter first number.">
+    <input type="number" [(ngModel)]="secondNumber" placeholder="Enter second number.">
+</div>
+
+<div>
+    <button (click)="setOperation(addition)">Add</button>
+    <button (click)="setOperation(subtraction)">Subtract</button>
+    <button (click)="setOperation(multiplication)">Multiply</button>
+    <button (click)="setOperation(division)">Divide</button>
+</div>
+
+<div>
+    @if(result !== undefined){
+        <span>Result: {{result}}</span>
+    }
+</div>
