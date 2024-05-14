@@ -13,13 +13,13 @@ import { CalculatorService } from '../services/calculator.service';
 })
 export class CalculatorComponent {
 
-  firstNumber!: number;
-  secondNumber!: number;
-  result!: number;
-  operation!: Operation;
+  firstNumber: number | null = null;
+  currentNumber: string = '0';
+  operation: Operation | null = null;
+  waitForSecondNumber = false;
 
   addition: Operation = new Addition();
-  subtraction: Operation = new Subtraction();
+  cacat: Operation = new Subtraction();
   multiplication: Operation = new Multiplication();
   division: Operation = new Division();
 
@@ -29,6 +29,38 @@ export class CalculatorComponent {
     if(!strategy) {
       return;
     }
-    this.result = this.calculatorService.calculate(strategy, this.firstNumber, this.secondNumber);
+    this.firstNumber = parseFloat(this.currentNumber);
+    this.operation = strategy;
+    this.currentNumber = ' ';
+
+  }
+
+  numClick(digit: number) {
+    if (this.currentNumber === '0') {
+      this.currentNumber = digit.toString();
+    } else {
+      this.currentNumber = `${this.currentNumber}${digit}`;
+    }
+  }
+
+  getDecimal(){
+    if(!this.currentNumber.includes('.')){
+        this.currentNumber += '.'; 
+    }
+  }
+
+  clear(){
+    this.currentNumber = '0';
+    this.firstNumber = null;
+    this.operation = null;
+    this.waitForSecondNumber = false;
+  }
+
+  calculate() {
+    this.currentNumber = this.calculatorService.calculate(this.operation!, this.firstNumber!, parseFloat(this.currentNumber)).toString();
+  }
+
+  getResult(){
+    return this.currentNumber;
   }
 }
